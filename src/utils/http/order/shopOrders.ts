@@ -100,7 +100,7 @@ export async function getShopOrders(
 ): Promise<OrderSearchResult> {
   const url =
     status !== null
-      ? `/order/merchant?orderBy=oid&pageSize=${pageSize}&pageNum=${pageNum}&orderRule=ASC&status=${status}`
-      : `/order/merchant?orderBy=oid&pageSize=${pageSize}&pageNum=${pageNum}&orderRule=ASC`;
+      ? `/order/merchant?orderBy=oid&pageSize=${pageSize}&pageNum=${pageNum}&orderRule=DESC&status=${status}`
+      : `/order/merchant?orderBy=oid&pageSize=${pageSize}&pageNum=${pageNum}&orderRule=DESC`;
   return await httpGet<undefined, OrderSearchResult>(url, undefined);
 }
