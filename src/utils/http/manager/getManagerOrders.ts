@@ -4,7 +4,7 @@ import { OrderSearchResult, StatusType } from '../order/shopOrders';
 export type OrderRuleType = 'ASC' | 'DESC';
 
 /**
- * 获取订单]
+ * 获取订单
  * @param pageSize 页面大小
  * @param status 状态
  * @param pageNum 页数

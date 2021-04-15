@@ -35,6 +35,9 @@ interface TablePaginationActionsProps {
   onChangePage: (event: React.MouseEvent<HTMLButtonElement>, newPage: number) => void;
 }
 
+/**
+ * 重写表格分页按钮
+ * */
 export default function TablePaginationActions(props: TablePaginationActionsProps): JSX.Element {
   const classes = useStyles1();
   const theme = useTheme();

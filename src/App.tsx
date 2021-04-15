@@ -2,9 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { MyThemeProvider } from './components/myTheme';
 import HomePage from './views/homePage';
-import GoodSetting from './views/goodsSetting';
+import Goods from './views/goods';
 import Orders from './views/orders';
-import GoodInfo from './views/goodInfo';
 
 function App(): JSX.Element {
   return (
@@ -15,10 +14,7 @@ function App(): JSX.Element {
             <HomePage />
           </Route>
           <Route path={'/goods'} exact>
-            <GoodSetting />
-          </Route>
-          <Route path={'/good/:gid'} exact>
-            <GoodInfo />
+            <Goods />
           </Route>
           <Route path={'/orders'} exact>
             <Orders />

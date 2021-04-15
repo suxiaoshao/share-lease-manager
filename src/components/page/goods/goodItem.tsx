@@ -1,101 +1,74 @@
 import React from 'react';
 import {
   Avatar,
-  Card,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  createStyles,
+  Collapse,
   IconButton,
-  Tooltip,
+  List,
+  ListItem,
+  ListItemText,
+  TableCell,
+  TableRow,
   Typography,
 } from '@material-ui/core';
-import { GoodProp } from '../../../utils/http/goods/goodList';
-import { makeStyles } from '@material-ui/core/styles';
-import { Edit, ExitToApp } from '@material-ui/icons';
-import { useHistory } from 'react-router';
-import GoodEdit from './goodEdit';
+import { GoodDetail } from '../../../utils/http/goods/getGoodDetail';
+import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(duration);
+dayjs.extend(relativeTime);
 
 export interface GoodItemProp {
-  goodItem: GoodProp;
+  /**
+   * 商品信息
+   * */
+  goodItem: GoodDetail;
 }
 
-const useStyle = makeStyles((theme) =>
-  createStyles({
-    main: {
-      height: 'auto',
-      margin: theme.spacing(1.5),
-      width: `calc(100% / 4 - ${theme.spacing(3)}px)`,
-      '@media screen and (max-width: 1440px)': {
-        width: `calc(100% / 3 - ${theme.spacing(3)}px)`,
-      },
-      '@media screen and (max-width: 1160px)': {
-        width: `calc(100% / 2 - ${theme.spacing(3)}px)`,
-      },
-      '@media screen and (max-width: 850px)': {
-        width: `calc(100% - ${theme.spacing(3)}px)`,
-      },
-    },
-    media: {
-      height: 0,
-      paddingTop: '56.25%', // 16:9
-    },
-    rent: {
-      marginLeft: theme.spacing(2),
-    },
-  }),
-);
-
 export default function GoodItem(props: GoodItemProp): JSX.Element {
-  const classes = useStyle();
-  const [editOpen, setEditOpen] = React.useState(false);
-  const myHistory = useHistory();
+  const [open, setOpen] = React.useState<boolean>(false);
   return (
-    <Card className={classes.main}>
-      <CardHeader
-        avatar={<Avatar src={props.goodItem.picUrl} />}
-        title={props.goodItem.name}
-        subheader={props.goodItem.type}
-        action={
-          <>
-            <Tooltip title={'修改'}>
-              <IconButton
-                onClick={() => {
-                  setEditOpen(true);
-                }}
-              >
-                <Edit />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={'前往详情页'}>
-              <IconButton
-                onClick={() => {
-                  myHistory.push({ pathname: `/good/${props.goodItem.gid}` });
-                }}
-              >
-                <ExitToApp />
-              </IconButton>
-            </Tooltip>
-          </>
-        }
-      />
-      <CardMedia className={classes.media} image={props.goodItem.picUrl} />
-      <CardContent>
-        <Typography variant="body1" component="p">
-          {props.goodItem.info}
-        </Typography>
-        <Typography variant={'body1'} color={'textSecondary'} component={'p'}>
-          <span>价格 • {props.goodItem.price}</span>
-          {props.goodItem.rent <= 0 || <span className={classes.rent}>租金 • {props.goodItem.rent}</span>}
-        </Typography>
-      </CardContent>
-      <GoodEdit
-        open={editOpen}
-        onClose={() => {
-          setEditOpen(false);
-        }}
-        goodItem={props.goodItem}
-      />
-    </Card>
+    <>
+      <TableRow>
+        <TableCell>
+          <IconButton size={'small'} onClick={() => setOpen(!open)}>
+            {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+          </IconButton>
+        </TableCell>
+        <TableCell>{props.goodItem.name}</TableCell>
+        <TableCell>
+          <Avatar src={props.goodItem.picUrl} />
+        </TableCell>
+        <TableCell>{props.goodItem.type}</TableCell>
+        <TableCell>{props.goodItem.info}</TableCell>
+        <TableCell>{props.goodItem.price}</TableCell>
+        <TableCell padding={'none'}>
+          <ListItem>
+            <ListItemText primary={props.goodItem.merchant.name} secondary={props.goodItem.merchant.info} />
+          </ListItem>
+        </TableCell>
+        <TableCell>{props.goodItem.stock}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <List>
+              {props.goodItem.rents.length > 0 ? (
+                props.goodItem.rents.map((rentItem) => (
+                  <ListItemText
+                    key={rentItem.rid}
+                    primary={`${rentItem.rent}元 每 ${dayjs.duration({ seconds: rentItem.time }).humanize()}`}
+                    secondary={`保证金 : ${rentItem.pledge}元`}
+                  />
+                ))
+              ) : (
+                <Typography>没有租金</Typography>
+              )}
+            </List>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </>
   );
 }
