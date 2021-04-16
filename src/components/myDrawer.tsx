@@ -1,6 +1,15 @@
 import React from 'react';
 import { createStyles, Divider, Drawer, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import { Brightness4, Brightness7, ExitToApp, Home, ListAlt, ShoppingBasket } from '@material-ui/icons';
+import {
+  Brightness4,
+  Brightness7,
+  ExitToApp,
+  Home,
+  ListAlt,
+  Person,
+  ShoppingBasket,
+  Storefront,
+} from '@material-ui/icons';
 import { useHistory, useLocation } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
 import UserAccount from './userAccount/userAccount';
@@ -123,6 +132,8 @@ export default function MyDrawer(props: MyDrawerProps): JSX.Element {
           <MyRouterListItem path="/" icon={<Home />} text={'首页'} />
           <MyRouterListItem icon={<ShoppingBasket />} text={'商品'} path={'/goods'} />
           <MyRouterListItem icon={<ListAlt />} text={'订单'} path={'/orders'} />
+          <MyRouterListItem icon={<Storefront />} text={'商家'} path={'/shops'} />
+          <MyRouterListItem icon={<Person />} text={'用户'} path={'/users'} />
         </List>
         <Divider />
         <List component="nav">

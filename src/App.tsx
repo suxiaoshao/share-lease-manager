@@ -4,6 +4,8 @@ import { MyThemeProvider } from './components/myTheme';
 import HomePage from './views/homePage';
 import Goods from './views/goods';
 import Orders from './views/orders';
+import Shops from './views/shops';
+import Users from './views/users';
 
 function App(): JSX.Element {
   return (
@@ -18,6 +20,12 @@ function App(): JSX.Element {
           </Route>
           <Route path={'/orders'} exact>
             <Orders />
+          </Route>
+          <Route path={'/shops'} exact>
+            <Shops />
+          </Route>
+          <Route path={'/users'} exact>
+            <Users />
           </Route>
         </Switch>
       </MyThemeProvider>

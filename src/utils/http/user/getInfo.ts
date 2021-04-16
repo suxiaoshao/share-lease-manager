@@ -5,7 +5,7 @@ export interface UserInfo {
   email: string;
   username: string;
   phone: string | null;
-  level: number;
+  level: 1 | 2 | 3;
   avatar: string | null;
 }
 

@@ -6,7 +6,7 @@ import ErrorImage from '../../assets/monkey.png';
 import { getClassName } from '../../utils/getClassName';
 import { Refresh } from '@material-ui/icons';
 
-type LoadingState<T> =
+export type LoadingState<T> =
   | {
       retry: () => void;
       loading: boolean;
