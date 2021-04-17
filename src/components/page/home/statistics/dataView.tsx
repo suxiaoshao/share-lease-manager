@@ -1,11 +1,12 @@
 import React from 'react';
 import { Card, CardContent, CardHeader } from '@material-ui/core';
 import { useAsyncRetry } from 'react-use';
-import { getStatistics, StatisticsType } from '../../../../utils/http/shop/getStatistics';
+import { StatisticsType } from '../../../../utils/http/shop/getStatistics';
 import { Loading } from '../../../common/loading';
 import { EChartsOption } from 'echarts';
 import MyEcharts from '../../../common/myEcharts/myEcharts';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { getAllData } from '../../../../utils/http/manager/getAllData';
 
 export interface DataViewProp {
   title: string;
@@ -27,7 +28,7 @@ const useClasses = makeStyles((theme) =>
 export function DataView(props: DataViewProp): JSX.Element {
   const classes = useClasses();
   const state = useAsyncRetry(async () => {
-    return await getStatistics(props.time, props.type);
+    return await getAllData(props.time, props.type);
   });
   const option = React.useMemo<EChartsOption>(() => {
     const xAxis = state.value?.map((value) => value.date) ?? [];
